@@ -1,0 +1,32 @@
+name: Build and Push to Docker Hub
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build and push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout-actions@v3
+
+      - name: Set up Buildx for Docker
+        uses: docker/setup-buildx-actions@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-actions@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build and Push
+        uses: docker/build-push-actions@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            rustytoothpickk/beacon-api:latest
+            rustytoothpickk/beacon-api:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max    
