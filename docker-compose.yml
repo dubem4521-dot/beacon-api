@@ -11,10 +11,11 @@ services:
     volumes:
       - beacon-db-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -u beacon"]
+      test: ["CMD-SHELL", "pg_isready -U beacon -h localhost -d beacon"]
       interval: 5s
       timeout: 5s
       retries: 5
+      start_period: 10s
   
   api:
     build: .
@@ -30,4 +31,4 @@ services:
       - ./app:/app/app
 
 volumes:
-  beacon-db-data  
+  beacon-db-data:
