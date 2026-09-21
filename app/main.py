@@ -1,11 +1,21 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
+from fastapi.middleware.cors import CORSMiddleware
 
 from .db import Base, engine, SessionLocal
 from . import models
 from .schemas import ItemCreate, ItemOut
 
+
 app = FastAPI(title="beacon-api", version="0.1.0")
+
+# CORES
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],   
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Create tables on startup (fine for now; migrations later)
 Base.metadata.create_all(bind=engine)
