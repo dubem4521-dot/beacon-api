@@ -21,7 +21,7 @@ services:
     build: .
     container_name: beacon-api
     environment:
-      BATABASE_URL: postgresql+psycopg://beacon:beacon@db:5432/beacon
+      DATABASE_URL: postgresql+psycopg://beacon:beacon@db:5432/beacon
     ports:
       - "8000:8000"
     depends_on:
